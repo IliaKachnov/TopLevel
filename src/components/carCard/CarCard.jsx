@@ -51,7 +51,7 @@ const CarCard = () => {
         </div>
         <div className='carCard__title-wrapper'>
           <p className='carCard__title'>Porsche 718 Boxster GTS</p>
-          <div className='card__price-wrapper'>
+          <div className='carCard__price-wrapper'>
             <p className='card__price'>$145</p>
             <p className='card__day'>per a day</p>
           </div>
