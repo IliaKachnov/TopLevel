@@ -35,9 +35,9 @@ const Header = () => {
             </div>
           </div>
           <ul className='header__links-wrapper'>
-            <Link to=''><li className='header__link'><p>Car List</p></li></Link>
-            <Link to=''><li className='header__link'><p>About Us</p></li></Link>
-            <Link to=''><li className='header__link'><p>Terms</p></li></Link>
+            <Link to='/catalog'><li className='header__link'><p>Car List</p></li></Link>
+            <Link to='/about'><li className='header__link'><p>About Us</p></li></Link>
+            <Link to='/terms'><li className='header__link'><p>Terms</p></li></Link>
             <Link to='/'><li className='header__link'><p>Partnership</p></li></Link>
             <li className={`header__link ${activeDropdown ? 'active' : ""}`} onClick={() => setActiveDropdown(!activeDropdown)}>
               <p>Services</p>
@@ -49,7 +49,7 @@ const Header = () => {
                 <Link to='/'><p>Rent-to-own</p></Link>
               </div>
             </li>
-            <Link><li className='header__link'><p>Contacts</p></li></Link>
+            <Link to='/contacts'><li className='header__link'><p>Contacts</p></li></Link>
           </ul>
           <div className='header__phone-wrapper'>
             <p className='header__phone'>(093) 433-88-88</p>
