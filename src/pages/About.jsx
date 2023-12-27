@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import AboutIntro from "../components/aboutIntro/AboutIntro"
 import AboutUs from "../components/aboutUs/AboutUs"
-import AccordionFaq from "../components/accordionFaq/accordionFaq";
+import AccordionFaq from "../components/accordionFaq/AccordionFaq";
 import Advantages from "../components/advantages/Advantages"
 import CarCard from "../components/carCard/CarCard";
 import Follow from "../components/follow/Follow";

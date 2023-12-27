@@ -1,4 +1,4 @@
-import AccordionFaq from "../components/accordionFaq/accordionFaq";
+import AccordionFaq from "../components/accordionFaq/AccordionFaq";
 import Advantages from "../components/advantages/Advantages"
 import Cases from "../components/cases/Cases";
 import Form from "../components/form/FormRent"

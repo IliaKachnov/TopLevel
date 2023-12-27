@@ -1,4 +1,4 @@
-import AccordionFaq from "../components/accordionFaq/accordionFaq";
+import AccordionFaq from "../components/accordionFaq/AccordionFaq";
 import CarCard from "../components/carCard/CarCard";
 import Conditions from "../components/conditions/Conditions"
 import Reviews from "../components/reviews/Reviews";
