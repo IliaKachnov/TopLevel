@@ -11,7 +11,7 @@ import Conditions from "../components/conditions/Conditions";
 import CarCard from "../components/carCard/CarCard";
 import { Link } from "react-router-dom";
 import FormRent from "../components/form/FormRent";
-import AccordionFaq from "../components/accordionFaq/accordionFaq";
+import AccordionFaq from "../components/accordionFaq/AccordionFaq";
 
 const faqlist = [
   {
