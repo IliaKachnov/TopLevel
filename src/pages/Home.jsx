@@ -14,7 +14,7 @@ import Advantages from '../components/advantages/Advantages';
 import StepsHome from '../components/stepsHome/StepsHome';
 import FormChauf from '../components/formChauf/FormChauf';
 import Reviews from '../components/reviews/Reviews';
-import AccordionFaq from '../components/accordionFaq/accordionFaq';
+import AccordionFaq from '../components/accordionFaq/AccordionFaq';
 import Follow from '../components/follow/Follow';
 import FormRent from '../components/form/FormRent';
 import CarListLarge from '../components/carListLarge/CarListLarge';
