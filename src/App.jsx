@@ -4,7 +4,7 @@ import B2b from './pages/B2b';
 import './styles/common.css'
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import Contacts from './pages/contacts';
+import Contacts from './pages/Contacts';
 import About from './pages/About';
 import Catalog from './pages/Catalog';
 import Home from './pages/Home';
