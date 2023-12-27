@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AccordionFaq from "../components/accordionFaq/accordionFaq"
+import AccordionFaq from "../components/accordionFaq/AccordionFaq"
 import Advantages from "../components/advantages/Advantages";
 import CarCard from "../components/carCard/CarCard";
 import FormRent from "../components/form/FormRent";
