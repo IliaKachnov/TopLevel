@@ -3,7 +3,7 @@ import CarCard from "../components/carCard/CarCard"
 import Conditions from "../components/conditions/Conditions"
 import '../styles/terms.css'
 import StepsHome from "../components/stepsHome/StepsHome"
-import AccordionFaq from "../components/accordionFaq/accordionFaq"
+import AccordionFaq from "../components/accordionFaq/AccordionFaq"
 import FormRent from "../components/form/FormRent"
 
 const faqlist = [
