@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './accordionFaq.css';
 import AccordionFaqItem from './AccordionFaqItem';
 
-const AccordionFaq = ({faqlist}) => {
+const AccordionFaq = ({faqlist, faqTitle, faqText}) => {
   const [openId, setOpenId] = useState(null);
 
 
@@ -11,8 +11,8 @@ const AccordionFaq = ({faqlist}) => {
     <>
       <section className='accordionFaq'>
         <div className='accordionFaq__wrapper'>
-          <p className='accordionFaq__crumb'>FAQ</p>
-          <h2 className='accordionFaq__title'>We answer your questions</h2>
+          <p className='accordionFaq__crumb'>{faqTitle}</p>
+          <h2 className='accordionFaq__title'>{faqText}</h2>
           <ul className='accordion'>
           {faqlist.map((faqItem, id) => (
             <AccordionFaqItem

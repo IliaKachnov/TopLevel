@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccordionFaq from "../components/accordionFaq/AccordionFaq"
 import Advantages from "../components/advantages/Advantages";
 import CarCard from "../components/carCard/CarCard";
@@ -6,50 +6,118 @@ import FormRent from "../components/form/FormRent";
 
 import "../styles/catalog.css";
 
-const faqlist = [
-  {
-    q: 'What forms of payment do you accept?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'When will the deposit for the vehicle be refunded?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'What is the daily mileage limit of rented cars?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Where can I drive a rented car?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Is it possible to deliver a car to a specific location in Dubai?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-];
+// const faqlist = [
+//   {
+//     q: 'What forms of payment do you accept?',
+//     a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
+//   },
+//   {
+//     q: 'When will the deposit for the vehicle be refunded?',
+//     a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
+//   },
+//   {
+//     q: 'What is the daily mileage limit of rented cars?',
+//     a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
+//   },
+//   {
+//     q: 'Where can I drive a rented car?',
+//     a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
+//   },
+//   {
+//     q: 'Is it possible to deliver a car to a specific location in Dubai?',
+//     a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
+//   },
+// ];
 
 const filters = ['Audi', 'BMW', 'Bentley', 'Cadillac', 'Chevrolet', 'Ferrari', 'Ford','Bentley', 'Cadillac', 'Chevrolet', 'Ferrari', 'Ford'];
 
-const advantagesDataB2b = [
-  {
-    title: "Free Delivery to Any Location",
-    text: "Airport, office, home, hotel or etc - we deliver the car to any point where it is convenient for you without delays",
-  },
-  {
-    title: "Cleanliness of Each Vehicle",
-    text: "We keep our cars clean. Our cars are always prepared for rental with shiny interiors, without dust or unpleasant odors",
-  },
-  {
-    title: "Privacy and Confidentiality Assured",
-    text: "We have stringent measures in place to safeguard your privacy, providing you with complete peace of mind.",
-  },
-];
+// const advantagesDataB2b = [
+//   {
+//     title: "Free Delivery to Any Location",
+//     text: "Airport, office, home, hotel or etc - we deliver the car to any point where it is convenient for you without delays",
+//   },
+//   {
+//     title: "Cleanliness of Each Vehicle",
+//     text: "We keep our cars clean. Our cars are always prepared for rental with shiny interiors, without dust or unpleasant odors",
+//   },
+//   {
+//     title: "Privacy and Confidentiality Assured",
+//     text: "We have stringent measures in place to safeguard your privacy, providing you with complete peace of mind.",
+//   },
+// ];
 
 const Catalog = () => {
   // eslint-disable-next-line no-unused-vars
   const [isChecked, setIsChecked] = useState(false);
   const [filter, setFilter] = useState(false);
+
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError ] = useState(null);
+  const [resultsData, setResultsData] = useState([]);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch('https://bot-myauto.host2bot.ru/api/Auto/list');
+        let data = await response.json();
+        const response1 = await fetch('https://bot-myauto.host2bot.ru/api/Content/landing');
+        let data1 = await response1.json();
+        setResults(data);
+        setResultsData(data1);
+
+        if (data.success === 'ok') {
+          setResults(data);
+        } else {
+          setError('Ошибка при получении')
+        }
+
+        if (data.success === 'ok') {
+          setResults(data);
+        } else {
+          setError('Ошибка при получении')
+        }
+
+      } catch(err) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    fetchContacts()
+
+  }, []);
+
+ 
+
+  // useEffect(() => {
+  //   const fetchContacts = async () => {
+  //     try {
+  //       const response = await fetch('https://bot-myauto.host2bot.ru/api/Content/landing');
+  //       let data = await response.json();
+  //       setResultsData(data);
+  //       if (data.success === 'ok') {
+  //         setResultsData(data);
+  //       } else {
+  //         setError('Ошибка при получении')
+  //       }
+
+  //     } catch(err) {
+  //       setError(err.message)
+  //     } finally {
+  //       setIsLoading(false)
+  //     }
+  //   };
+  //   fetchContacts()
+
+  // }, []);
+
+  if (isLoading) {
+    return <p>Загрузка</p>
+  }
+  if (error) {
+    return <p>Ошибка: {error}</p>
+  }
 
   return (
     <>
@@ -144,11 +212,9 @@ const Catalog = () => {
             </li>
           </ul>
           <div className="catalog__cars">
-            <CarCard/>
-            <CarCard/>
-            <CarCard/>
-            <CarCard/>
-            <CarCard/>
+            {results.data.map((card, id) => (
+              <CarCard key={id} carCard={card.image} speed={card.speed} transmission={card.transmission} seats={card.seats} price={card.price} carName={card.name} />
+            ))}
           </div>
           <div className="catalog__more-wrapper">
             <button className="catalog__more">
@@ -172,8 +238,8 @@ const Catalog = () => {
           </div>
         </div>
       </section>
-      <AccordionFaq faqlist={faqlist}/>
-      <Advantages mainTitle='We offer the best car rental experience for you' advData={advantagesDataB2b} titleBlue='New Cars with Minimal Mileage' textBlue='Experience the thrill of driving the latest models with our fleet of brand-new vehicles boasting minimal mileage' titleBenefit={`Indulge in Unmatched Comfort and Performance on Dubai's Roads`} button='Book the perfect car' />
+      <AccordionFaq faqTitle={resultsData.faq.title} faqText={resultsData.faq.text} faqlist={resultsData.faq.blocks}/>
+      <Advantages crumb={resultsData.advantages.title} textBlue={resultsData.advantages.blocks[0].text} blueSupport={resultsData.advantages.blocks[4].title} blueSupportText={resultsData.advantages.blocks[4].text} advData={resultsData.advantages.blocks.slice(1, 4)} titleBlue={resultsData.advantages.blocks[0].title} mainTitle={resultsData.advantages.text} titleBenefit={resultsData.advantages.blocks[5].title} button='Book the perfect car'  />
       <FormRent />
     </>
   )

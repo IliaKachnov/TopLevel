@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import './aboutIntro.css';
 import carAbout from '../../assets/img/car-about.webp';
 
-const AboutIntro = () => {
+const AboutIntro = ({ slogan, }) => {
   return (
     <>
       <section className='about'>
@@ -10,7 +11,7 @@ const AboutIntro = () => {
             <span>Main</span>
             <span>About</span>
           </div>
-          <h2>We believe in turning your ordinary moments into extraordinary memories</h2>
+          <h2>{slogan}</h2>
           <img src={carAbout} alt="Top Level" />
         </div>
       </section>

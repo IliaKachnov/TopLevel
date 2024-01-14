@@ -1,21 +1,19 @@
+/* eslint-disable react/prop-types */
 import CarCard from '../carCard/CarCard';
 import './carListLarge.css';
 
-const CarListLarge = () => {
+const CarListLarge = ({ carListTitle, carListText, cards }) => {
+  
   return (
     <>
       <section className="carListLarge">
         <div className="carListLarge__wrapper">
-          <p className='carListLarge__crumb'>Car list</p>
-          <h2 className='carListLarge__title'>Rent a car in Dubai with delivery to any location</h2>
+          <p className='carListLarge__crumb'>{carListTitle}</p>
+          <h2 className='carListLarge__title'>{carListText}</h2>
           <div className="carListLarge__cards">
-            <CarCard />
-            <CarCard />
-            <CarCard />
-            <CarCard />
-            <CarCard />
-            <CarCard />
-            <CarCard />
+          {cards.map((card, id) => (
+          <CarCard key={id} carCard={card.image} speed={card.speed} transmission={card.transmission} seats={card.seats} price={card.price} carName={card.name} />
+        ))}
           </div>
           <div className='carListLarge__more-wrapper'>
             <button className='carListLarge__more'>

@@ -12,55 +12,51 @@ import carIntro from '../assets/img/car-about.webp';
 import { Link } from 'react-router-dom';
 import Advantages from '../components/advantages/Advantages';
 import StepsHome from '../components/stepsHome/StepsHome';
-import FormChauf from '../components/formChauf/formChauf';
+import FormChauf from '../components/formChauf/FormChauf';
 import Reviews from '../components/reviews/Reviews';
 import AccordionFaq from '../components/accordionFaq/AccordionFaq';
 import Follow from '../components/follow/Follow';
 import FormRent from '../components/form/FormRent';
 import CarListLarge from '../components/carListLarge/CarListLarge';
+import { useEffect, useState } from 'react';
 
 
 
 
-const advantagesDataHome = [
-  {
-    title: "Free Delivery to Any Location",
-    text: "Airport, office, home, hotel or etc - we deliver the car to any point where it is convenient for you without delays",
-  },
-  {
-    title: "Cleanliness of Each Vehicle",
-    text: "We keep our cars clean. Our cars are always prepared for rental with shiny interiors, without dust or unpleasant odors",
-  },
-  {
-    title: "Privacy and Confidentiality Assured",
-    text: "We have stringent measures in place to safeguard your privacy, providing you with complete peace of mind.",
-  },
-];
-
-const faqlist = [
-  {
-    q: 'What forms of payment do you accept?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'When will the deposit for the vehicle be refunded?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'What is the daily mileage limit of rented cars?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Where can I drive a rented car?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Is it possible to deliver a car to a specific location in Dubai?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-];
 
 const Home = () => {
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError ] = useState(null);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch('https://bot-myauto.host2bot.ru/api/Content/landing');
+        let data = await response.json();
+        setResults(data);
+        if (data.success === 'ok') {
+          setResults(data);
+        } else {
+          setError('Ошибка при получении')
+        }
+
+      } catch(err) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    fetchContacts()
+
+  }, []);
+
+  if (isLoading) {
+    return <p>Загрузка</p>
+  }
+  if (error) {
+    return <p>Ошибка: {error}</p>
+  }
   return (
     <>
       <section className="home">
@@ -92,8 +88,8 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <Advantages mainTitle='We offer the best car rental experience for you' advData={advantagesDataHome} titleBlue='New Cars with Minimal Mileage' textBlue='Experience the thrill of driving the latest models with our fleet of brand-new vehicles boasting minimal mileage' titleBenefit={`Indulge in Unmatched Comfort and Performance on Dubai's Roads`} button='Book the perfect car'  />
-      <CarListLarge />
+      <Advantages crumb={results.advantages.title} textBlue={results.advantages.blocks[0].text} blueSupport={results.advantages.blocks[4].title} blueSupportText={results.advantages.blocks[4].text} advData={results.advantages.blocks.slice(1, 4)} titleBlue={results.advantages.blocks[0].title} mainTitle={results.advantages.text} titleBenefit={results.advantages.blocks[5].title} button='Book the perfect car' />
+      <CarListLarge carListTitle={results.carList.title} carListText={results.carList.text} cards={results.carList.items} />
       <StepsHome />
       <section className='homeIntro'>
         <div className='homeIntro__wrapper'>
@@ -102,8 +98,8 @@ const Home = () => {
         </div>
       </section>
       <FormChauf />
-      <Reviews />
-      <AccordionFaq faqlist={faqlist} />
+      <Reviews reviewsCrumb={results.reviews.title} reviewsTitle={results.reviews.text} reviews={results.reviews.blocks} />
+      <AccordionFaq faqTitle={results.faq.title} faqText={results.faq.text} faqlist={results.faq.blocks} />
       <Follow />
       <FormRent />
     </>

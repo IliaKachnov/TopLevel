@@ -10,58 +10,54 @@ import FormChauf from "../components/formChauf/formChauf";
 import Reviews from "../components/reviews/Reviews";
 
 import '../styles/about.css';
-
-const advantagesData = [
-  {
-    title: "Free Delivery to Any Location",
-    text: "Airport, office, home, hotel or etc - we deliver the car to any point where it is convenient for you without delays",
-  },
-  {
-    title: "Cleanliness of Each Vehicle",
-    text: "We keep our cars clean. Our cars are always prepared for rental with shiny interiors, without dust or unpleasant odors",
-  },
-  {
-    title: "Privacy and Confidentiality Assured",
-    text: "We have stringent measures in place to safeguard your privacy, providing you with complete peace of mind.",
-  },
-];
-
-const faqlist = [
-  {
-    q: 'What forms of payment do you accept?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'When will the deposit for the vehicle be refunded?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'What is the daily mileage limit of rented cars?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Where can I drive a rented car?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Is it possible to deliver a car to a specific location in Dubai?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-];
+import { useEffect, useState } from "react";
 
 const About = () => {
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError ] = useState(null);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch('https://bot-myauto.host2bot.ru/api/Content/aboutPage');
+        let data = await response.json();
+        setResults(data);
+        if (data.success === 'ok') {
+          setResults(data);
+        } else {
+          setError('Ошибка при получении')
+        }
+
+      } catch(err) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    fetchContacts()
+
+  }, []);
+
+  if (isLoading) {
+    return <p>Загрузка</p>
+  }
+  if (error) {
+    return <p>Ошибка: {error}</p>
+  }
   return (
     <>
-      <AboutIntro />
-      <AboutUs />
-      <Advantages textBlue='Experience the thrill of driving the latest models with our fleet of brand-new vehicles boasting minimal mileage' advData={advantagesData} titleBlue='New Cars with Minimal Mileage' mainTitle='We offer the best car rental experience for you' titleBenefit={`Indulge in Unmatched Comfort and Performance on Dubai's Roads`} button='Book the perfect car' />
+      <AboutIntro slogan={results.slogan} />
+      <AboutUs aboutUs={results.stat.name} aboutTitle={results.stat.title} aboutText={results.stat.text} statCells={results.stat.stat} />
+      <Advantages crumb={results.advantages.title} textBlue={results.advantages.blocks[0].text} blueSupport={results.advantages.blocks[4].title} blueSupportText={results.advantages.blocks[4].text} advData={results.advantages.blocks.slice(1, 4)} titleBlue={results.advantages.blocks[0].title} mainTitle={results.advantages.text} titleBenefit={results.advantages.blocks[5].title} button='Book the perfect car' />
       <FormRent /> 
-      <Reviews />
+      <Reviews reviewsCrumb={results.reviews.title} reviewsTitle={results.reviews.text} reviews={results.reviews.blocks} />
       <p className="conditions__crumb">Car list</p>
       <h2 className="conditions__title">40+ cars available now</h2>
       <div className="cars__wrapper">
-        <CarCard/>
-        <CarCard/>
+        {results.shortCarList.items.map((card, id) => (
+          <CarCard key={id} carCard={card.image} speed={card.speed} transmission={card.transmission} seats={card.seats} price={card.price} carName={card.name} />
+        ))}
       </div>
       <div className="about__see-wrapper">
         <Link>
@@ -75,7 +71,7 @@ const About = () => {
         </Link>
       </div>
       <FormChauf />
-      <AccordionFaq faqlist={faqlist}/>
+      <AccordionFaq faqTitle={results.faq.title} faqText={results.faq.text} faqlist={results.faq.blocks}/>
       <Follow />
     </>
   )

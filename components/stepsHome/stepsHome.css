@@ -53,6 +53,10 @@
 .stepsHome__step.blue {
   background-color: #1A187D;
 }
+.stepsHome__step.blue .stepsHome__amount {
+  background-color: #FFF;
+  color: #1A187D;
+}
 .stepsHome__amount {
   display: flex;
   width: 40px;

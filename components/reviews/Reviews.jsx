@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
 /* eslint-disable react/no-unescaped-entities */
 import carReview from "../../assets/img/car-review.webp";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,19 +13,17 @@ import 'swiper/css/navigation';
 import "./reviews.css";
 import { Pagination, Navigation, HashNavigation } from 'swiper/modules';
 
-const Reviews = () => {
+const Reviews = ({ reviews, reviewsCrumb, reviewsTitle }) => {
   return (
     <>
       <section className="reviews">
         <div className="reviews__wrapper">
-          <p className="reviews__crumb">reviews</p>
-          <h2 className="reviews__title">What our clients say</h2>
+          <p className="reviews__crumb">{reviewsCrumb}</p>
+          <h2 className="reviews__title">{reviewsTitle}</h2>
           <div className="swiper__wrapper">
             <Swiper
               spaceBetween={20}
               slidesPerView={1}
-              // freeMode={true}
-              // loop={true}
               breakpoints={
                 {1240: {slidesPerView: 3}}
               }
@@ -38,49 +38,24 @@ const Reviews = () => {
               modules={[Pagination, Navigation, HashNavigation]}
               className="mySwiper2"
             >
-              <SwiperSlide data-hash="slide1">
+              {reviews.map((review, id) => (
+                <SwiperSlide key={id} data-hash={`slide${id + 1}`}>
                 <div className="slide__text-wrapper">
-                  <h3>I'll definitely be a returning customer!</h3>
-                  <p className="slide__text">Renting a premium car from Top Level Car was an absolute delight! The seamless delivery to my hotel made my trip so convenient. The car was spotless and performed flawlessly. I'll definitely be a returning customer!</p>
-                  <p className="slide__user">John D.</p>
+                  <div>
+                    <h3>{review.title}</h3>
+                    <p className="slide__text">{review.text}</p>
+                  </div>
+                  <p className="slide__user">{review.user}</p>
                 </div>
               </SwiperSlide>
+              ))}
               <SwiperSlide data-hash="slide2">
                 <div className="slide__img">
                   <img src={carReview} alt="Top level" />
                 </div>
               </SwiperSlide>
-              <SwiperSlide data-hash="slide3">
-                <div className="slide__text-wrapper">
-                  <h3>The car was a dream</h3>
-                  <p className="slide__text">I couldn't have asked for a better experience. The team at Top Level Car went above and beyond to ensure my rental went smoothly. The car was a dream to drive and added an extra layer of luxury to my Dubai trip. Highly recommended!</p>
-                  <p className="slide__user">Sara L.</p>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide data-hash="slide4">
-                <div className="slide__img">
-                  <img src={carReview} alt="Top level" />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide data-hash="slide5">
-                <div className="slide__text-wrapper">
-                  <h3>I'll definitely be a returning customer!</h3>
-                  <p className="slide__text">Renting a premium car from Top Level Car was an absolute delight! The seamless delivery to my hotel made my trip so convenient. The car was spotless and performed flawlessly. I'll definitely be a returning customer!</p>
-                  <p className="slide__user">John D.</p>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide data-hash="slide6">
-                <div className="slide__img">
-                  <img src={carReview} alt="Top level" />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide data-hash="slide7">
-                <div className="slide__text-wrapper">
-                  <h3>The car was a dream</h3>
-                  <p className="slide__text">I couldn't have asked for a better experience. The team at Top Level Car went above and beyond to ensure my rental went smoothly. The car was a dream to drive and added an extra layer of luxury to my Dubai trip. Highly recommended!</p>
-                  <p className="slide__user">Sara L.</p>
-                </div>
-              </SwiperSlide>
+              
+              
             </Swiper>
           </div>
         </div>

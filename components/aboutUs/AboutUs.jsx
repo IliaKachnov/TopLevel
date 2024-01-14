@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './aboutUs.css';
 
 import lamb from '../../assets/img/lamb.webp';
@@ -10,39 +11,24 @@ import pors from '../../assets/img/pors.webp';
 import subaru from '../../assets/img/subaru.webp';
 import { Link } from 'react-router-dom';
 
-const AboutUs = () => {
+const AboutUs = ({ aboutUs, aboutTitle, aboutText, statCells }) => {
   return (
     <>
       <section className="aboutUs">
         <div className="aboutUs__wrapper">
           <div className="aboutUs__section">
-            <p className='aboutUs__crumb'>about us</p>
-            <h2 className='aboutUs__title'>Dubai Car Rental & Chauffeur Service</h2>
+            <p className='aboutUs__crumb'>{aboutUs}</p>
+            <h2 className='aboutUs__title'>{aboutTitle}</h2>
             <p className='aboutUs__text'>
-              Top Level Luxury and Sport Car Rental specialises in offering luxury car rentals, with or without a driver. Based in Dubai.
-            </p>
-            <p className='aboutUs__text'>
-              We provides a range of prestigious vehicles from the leading luxury automakers (Ferrari, Porsche, Lamborghini, Mercedes, Bentley, and etc.). We offer you a quality of service that places us among the best in our luxury car hire business.
-            </p>
-            <p className='aboutUs__text'>
-              Our vision is to be the epitome of exclusivity in the luxury car rental industry. We aim to provide our clients with not just transportation but an immersive experience, where every drive becomes a celebration of sophistication and opulence
-            </p>
-            <p className='aboutUs__text'>
-              We differ from other companies in that we present not only cars, but also give our clients an unforgettable experience and an individual approach to each client
+              {aboutText}
             </p>
             <div className='aboutUs__numbers'>
-              <div className='aboutUs__number'>
-                <p className='aboutUs__amount'>40+</p>
-                <p className='aboutUs__subtitle'>unique cars</p>
-              </div>
-              <div className='aboutUs__number'>
-                <p className='aboutUs__amount'>1000+</p>
-                <p className='aboutUs__subtitle'>satisfied clients</p>
-              </div>
-              <div className='aboutUs__number'>
-                <p className='aboutUs__amount'>17</p>
-                <p className='aboutUs__subtitle'>premium brands</p>
-              </div>
+              {statCells.map((statCell, id) => (
+                <div key={id} className='aboutUs__number'>
+                  <p className='aboutUs__amount'>{statCell.cell}</p>
+                  <p className='aboutUs__subtitle'>{statCell.name}</p>
+                </div>
+              ))}
             </div>
           </div>
           <div className='aboutUs__img'>

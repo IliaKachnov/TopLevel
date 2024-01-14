@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import whats from '../../assets/img/whats.svg'
-import carCard from '../../assets/img/car-card.webp';
+// import carCard from '../../assets/img/car-card.webp';
 
 import './carCard.css';
 import { Link } from 'react-router-dom';
@@ -13,7 +14,7 @@ import 'swiper/css/pagination';
 // import required modules
 import { Pagination } from 'swiper/modules';
 
-const CarCard = () => {
+const CarCard = ({ carCard, speed, transmission, seats, price, carName }) => {
 
 
   return (
@@ -50,21 +51,21 @@ const CarCard = () => {
           </Link>
         </div>
         <div className='carCard__title-wrapper'>
-          <p className='carCard__title'>Porsche 718 Boxster GTS</p>
+          <p className='carCard__title'>{carName}</p>
           <div className='carCard__price-wrapper'>
-            <p className='card__price'>$145</p>
+            <p className='card__price'>{`$${price}`}</p>
             <p className='card__day'>per a day</p>
           </div>
         </div>
         <ul className='carCard__filters'>
-          <li className='carCard__filter blue'>Max: 250 km/h</li>
-          <li className='carCard__filter'>Automatic</li>
-          <li className='carCard__filter'>2 seats</li>
+          <li className='carCard__filter blue'>{`Max: ${speed}km/h`}</li>
+          <li className='carCard__filter'>{transmission}</li>
+          <li className='carCard__filter'>{`${seats} seats`}</li>
           <li className='carCard__filter'>0-100: 4 sec</li>
         </ul>
         <div className='carCard__mobile'>
           <div className='card__price-mobile'>
-            <p className='card__price'>$145</p>
+            <p className='card__price'>{`$${price}`}</p>
             <p className='card__day'>per a day</p>
           </div>
           <div className='card__more-wrapper'>

@@ -5,31 +5,43 @@ import '../styles/terms.css'
 import StepsHome from "../components/stepsHome/StepsHome"
 import AccordionFaq from "../components/accordionFaq/AccordionFaq"
 import FormRent from "../components/form/FormRent"
+import { useEffect, useState } from "react"
 
-const faqlist = [
-  {
-    q: 'What forms of payment do you accept?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'When will the deposit for the vehicle be refunded?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'What is the daily mileage limit of rented cars?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Where can I drive a rented car?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Is it possible to deliver a car to a specific location in Dubai?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-];
 
 const Terms = () => {
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError ] = useState(null);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch('https://bot-myauto.host2bot.ru/api/Content/termsPage');
+        let data = await response.json();
+        setResults(data);
+        if (data.success === 'ok') {
+          setResults(data);
+        } else {
+          setError('Ошибка при получении')
+        }
+
+      } catch(err) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    fetchContacts()
+
+  }, []);
+
+  if (isLoading) {
+    return <p>Загрузка</p>
+  }
+  if (error) {
+    return <p>Ошибка: {error}</p>
+  }
+
   return (
     <>
       <section className="terms">
@@ -38,14 +50,15 @@ const Terms = () => {
             <span>Main</span>
             <span>Terms</span>
           </div>
-          <Conditions condTilte='Car rental conditions' req='Requirements for Customers' />
+          <Conditions condTilte={results.title} req={results.text} condBlocks={results.requirements}  />
         </div>
       </section>
       <p className="conditions__crumb">Car list</p>
       <h2 className="conditions__title">40+ cars available now</h2>
       <div className="cars__wrapper">
-        <CarCard/>
-        <CarCard/>
+        {results.shortCarList.items.map((card, id) => (
+          <CarCard key={id} carCard={card.image} speed={card.speed} transmission={card.transmission} seats={card.seats} price={card.price} carName={card.name} />
+        ))}
       </div>
       <div className="about__see-wrapper">
         <Link>
@@ -59,7 +72,7 @@ const Terms = () => {
         </Link>
       </div>
       <StepsHome />
-      <AccordionFaq faqlist={faqlist}/>
+      <AccordionFaq faqTitle='faq' faqText='We answer your questions' faqlist={results.faq_terms}/>
       <FormRent />
     </>
   )

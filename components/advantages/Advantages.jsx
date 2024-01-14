@@ -3,12 +3,12 @@
 import './advantages.css'
 
 // eslint-disable-next-line react/prop-types
-const Advantages = ({mainTitle, textBlue, titleBenefit, button, titleBlue, advData}) => {
+const Advantages = ({mainTitle, textBlue, titleBenefit, button, titleBlue, advData, crumb, blueSupport, blueSupportText}) => {
   return (
     <>
       <div className='advantages__wrapper'>
         <div className='advantages__title-wrapper'>
-          <h3 className='advantages__crumb'>ADVANTAGES</h3>
+          <h3 className='advantages__crumb'>{crumb}</h3>
           <h2 className='advantages__title'>{mainTitle}</h2>
         </div>
         <div className='advantages__blocks'>
@@ -23,8 +23,8 @@ const Advantages = ({mainTitle, textBlue, titleBenefit, button, titleBlue, advDa
           </div>
           ))}
           <div className="advantages__block blue">
-            <h3>24/7 Assistance Support</h3>
-            <p>You can rest easy knowing that we're always here to assist you, whether it's for questions, assistance on the road, or any unexpected situations</p>
+            <h3>{blueSupport}</h3>
+            <p>{blueSupportText}</p>
           </div>
           <div className="advantages__block benefit">
             <h3>{titleBenefit}</h3>

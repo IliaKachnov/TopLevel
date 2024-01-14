@@ -5,6 +5,7 @@ import Form from "../components/form/FormRent"
 import Intro from "../components/intro/Intro"
 
 import intro from '../assets/img/intro.webp'
+import { useEffect, useState } from "react";
 
 const advantagesDataB2b = [
   {
@@ -21,36 +22,46 @@ const advantagesDataB2b = [
   },
 ];
 
-const faqlist = [
-  {
-    q: 'What forms of payment do you accept?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'When will the deposit for the vehicle be refunded?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'What is the daily mileage limit of rented cars?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Where can I drive a rented car?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-  {
-    q: 'Is it possible to deliver a car to a specific location in Dubai?',
-    a: 'We accept any form of payment: cash, cryptocurrency, bank cards',
-  },
-];
 
 const B2b = () => {
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError ] = useState(null);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch('https://bot-myauto.host2bot.ru/api/Content/rentToOwnPage');
+        let data = await response.json();
+        setResults(data);
+        if (data.success === 'ok') {
+          setResults(data);
+        } else {
+          setError('Ошибка при получении')
+        }
+
+      } catch(err) {
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    fetchContacts()
+
+  }, []);
+
+  if (isLoading) {
+    return <p>Загрузка</p>
+  }
+  if (error) {
+    return <p>Ошибка: {error}</p>
+  }
   return (
     <>
       <Intro intro={intro} introTitle='Deliver an unforgettable experience partnering with Top Level Car' introText='From providing luxury vehicles for various clientele to tailoring solutions that meet specific business needs, partnering with us ensures access to unparalleled luxury and exceptional service' />
       <Advantages mainTitle='We offer you the best partnership experience' advData={advantagesDataB2b} titleBlue='Marketing Package' textBlue='We will prepare a separate catalog with our cars in your color palette, with your logos and your contacts. All photos of our fleet are available at any second for customer interaction or use on your social media/website' titleBenefit='Benefit from Special Rates and Additional Perks Designed to Maximize the Partnership Advantages' button='Contact b2b manager' />
       <Cases />
-      <AccordionFaq faqlist={faqlist}/>
+      <AccordionFaq faqTitle={results.rent_to_own_faq.title} faqText={results.rent_to_own_faq.text} faqlist={results.rent_to_own_faq.blocks}/>
       <Form />
     </>
   )
